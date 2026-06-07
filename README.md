@@ -3,7 +3,7 @@
 Low footprint Minecraft server optimization for **LeafMC 1.21.11**.
 Designed for 1–5 players targeting 512mb–1gb RAM.
 
-Other versions may load but won't achieve full performance gains.
+Other versions may load but won't achieve full performance gains (such as PaperMC, Purpur, or older and newer versions).
 
 ---
 

@@ -234,7 +234,7 @@ class DynamicAdjuster(
             "§6━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
             "§e PicoMC",
             "§6━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-            "§7 TPS      ${tpsColor}${fmt(tpsValue)} §7/ 19.0",
+            "§7 TPS      ${tpsColor}${fmt(tpsValue)} §7/ 19.0 §8(min target)",
             "§7 Players  §f$players",
             "§7 View     §f$currentViewDistance §7chunks §8(sim $simDistance§8)",
             "§7 Entities ${entityColor}$totalEntities",
