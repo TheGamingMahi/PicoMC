@@ -1,0 +1,29 @@
+_version: 1
+
+gameplay-mechanics:
+  entities-can-random-stroll-into-non-ticking-chunks: false  # changed from true, dont load chunks for strolling
+  entity-wake-up-duration-ratio-standard-deviation: 0.2
+  fixes:
+    broadcast-crit-animations-as-the-entity-being-critted: false
+    mc-121706: false
+    mc-238526: false
+  hide-flames-on-entities-with-fire-resistance: false
+  try-respawn-ender-dragon-after-end-crystal-place: true
+
+small-optimizations:
+  load-chunks:
+    to-activate-climbing-entities: false  # dont load chunks for climbing mobs
+    to-spawn-phantoms: false              # dont load chunks for phantoms
+  # OPTIMIZED: heavily limit projectile chunk loads
+  max-projectile-chunk-loads:
+    per-projectile:
+      max: 2                              # down from 10
+      remove-from-world-after-reach-limit: true   # changed from false, remove instead of stopping
+      reset-movement-after-reach-limit: false
+    per-tick: 4                           # down from 10
+  # OPTIMIZED: heavily increased intervals
+  reduced-intervals:
+    check-stuck-in-wall: 200             # up from 10, check rarely
+    villager-item-repickup: 1000         # up from 100, villagers barely pick up items
+  save-fireworks: false                  # changed from true, dont save fireworks
+  use-optimized-sheep-offspring-color: true

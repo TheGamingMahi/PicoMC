@@ -1,0 +1,273 @@
+config-version: '3.0'
+
+###########
+#  ASYNC  #
+###########
+async:
+  # OPTIMIZED: enable async chunk sending, reduces main thread load massively
+  async-chunk-send:
+    enabled: true
+
+  # OPTIMIZED: enable async mob spawning
+  async-mob-spawning:
+    enabled: true
+
+  # OPTIMIZED: enable async pathfinding
+  async-pathfinding:
+    enabled: true
+    max-threads: 1        # single thread, we dont have many cores to spare
+    keepalive: 60
+    queue-size: 256
+    reject-policy: CALLER_RUNS
+
+  # OPTIMIZED: async player data saving
+  async-playerdata-save:
+    enabled: true
+
+  # OPTIMIZED: async entity tracking
+  async-entity-tracker:
+    enabled: true
+    threads: 1
+
+  # keep off, complex and experimental
+  parallel-world-ticking:
+    enabled: false
+    threads: 8
+    log-container-creation-stacktraces: false
+    disable-hard-throw: false
+    async-unsafe-read-handling: DISABLED
+
+##########
+#  PERF  #
+##########
+performance:
+  check-survival-before-growth:
+    cactus-check-survival: true  # changed from false, skip invalid cactus growth
+
+  despawn-time:
+    proactive-weak-loading-despawn: true  # changed from false, despawn entities in weak chunks
+
+  dont-save-entity:
+    dont-save-primed-tnt: false
+    dont-save-falling-block: false
+
+  # OPTIMIZED: DAB - Dynamic Activation of Brain
+  # This is our dumb AI system, already built into Leaf
+  dab:
+    enabled: true
+    dont-enable-if-in-water: true   # changed from false, dont mess up swimming mobs
+    start-distance: 12              # start throttling at 12 blocks
+    max-tick-freq: 100              # only tick furthest mobs every 5 seconds
+    activation-dist-mod: 8
+    blacklisted-entities:
+    - villager                      # handled by lobotomize instead
+    - axolotl
+
+  enable-cached-minecraft-to-bukkit-entitytype-convert: true
+
+  # OPTIMIZED: reduce goal start chances, mobs start goals less often
+  entity-goal:
+    start-tick-chance:
+      nearest-attackable-target: 3   # only 1 in 3 chance to start targeting per tick
+      follow-parent: 5
+      avoid-entity: 3
+      temptation: 5
+      enderman-look-for-player: 3
+
+  fast-biome-manager-seed-obfuscation:
+    enabled: false
+    seed-obfuscation-key: -951508286763806218
+
+  # OPTIMIZED: faster random generator
+  faster-random-generator:
+    enabled: true
+    enable-for-worldgen: false  # keep false, affects world gen consistency
+    warn-for-slime-chunk: true
+    use-legacy-random-for-slime-chunk: true  # keep slime chunks consistent
+
+  faster-structure-gen-future-sequencing: true
+
+  reuse-random-ticking-blockpos: true  # changed from false, reduce memory allocation
+
+  # OPTIMIZED: cache biomes
+  cache-biome:
+    enabled: true
+    mob-spawning: true
+    advancements: true
+
+  optimize-block-entities: true
+  optimize-mob-despawn: true        # changed from false
+  only-tick-items-in-hand: true     # changed from false, only tick held items
+  optimize-mob-spawning: true       # changed from false
+
+  optimize-no-action-time:
+    disable-light-check: true       # changed from false, skip light checks for idle mobs
+
+  optimize-player-movement: true
+  optimize-random-tick: true        # changed from false
+  optimize-waypoint: true           # changed from false
+  optimized-powered-rails: true     # changed from false
+
+  # OPTIMIZED: reduce unnecessary packets
+  reduce-packets:
+    reduce-entity-move-packets: true    # changed from false
+    reduce-entity-motion-packets: true  # changed from false
+    disable-useless-particles: true     # changed from false
+
+  skip-ai-for-non-aware-mob: true
+
+  datapack:
+    skip-inactive-entity-for-execute-command: true  # changed from false
+
+  skip-map-item-data-updates-if-map-does-not-have-craftmaprenderer: true
+  sleeping-block-entity: true       # changed from false, sleep idle block entities
+
+  # OPTIMIZED: throttle mob spawning in problematic chunks
+  throttle-mob-spawning:
+    enabled: true
+    monster:
+      min-failed: 4       # down from 8, skip sooner
+      spawn-chance: 50.0  # up from 25, skip more often
+    creature:
+      min-failed: 4
+      spawn-chance: 50.0
+    ambient:
+      min-failed: 2
+      spawn-chance: 90.0  # ambient almost never spawns
+    axolotls:
+      min-failed: 2
+      spawn-chance: 90.0
+    underground_water_creature:
+      min-failed: 2
+      spawn-chance: 90.0
+    water_creature:
+      min-failed: 4
+      spawn-chance: 50.0
+    water_ambient:
+      min-failed: 2
+      spawn-chance: 90.0
+
+  create-snapshot-on-retrieving-blockstate: true
+
+  # OPTIMIZED: use virtual threads from Java 21
+  use-virtual-thread:
+    bukkit-async-scheduler: true    # changed from false
+    folia-async-scheduler: true     # changed from false
+    async-chat-executor: true
+    download-pool: true             # changed from false
+    auth-pool: true
+    paper-configuration-pool: true
+
+###########
+#  FIXES  #
+###########
+fixes:
+  vanilla-bug-fix:
+    mc-270656: false
+    mc-301114: true   # changed from false, fix memory leak in combat tracker
+    mc-301114-max-entries: 512  # down from 10240, limit entries
+  prevent-moving-into-weak-loaded-chunks:
+    enabled: true       # changed from false, prevent entities entering weak chunks
+    projectiles: true   # changed from false
+
+##############
+#  GAMEPLAY  #
+##############
+gameplay-mechanisms:
+  afk-command:
+    enabled: false
+  inventory-overflow-event:
+    enabled: false
+    listener-class: com.example.package.PlayerInventoryOverflowEvent
+  player:
+    max-use-item-distance: 1.0000001
+  allow-tripwire-dupe: false
+  death-item-drop-knockback:
+    drop-around: true
+    horizontal-force: 0.5
+    vertical-force: 0.2
+  ice-and-snow-chance: 48
+  knockback:
+    snowball-knockback-players: false
+    egg-knockback-players: false
+    can-player-knockback-zombie: true
+    flush-location-while-knockback-player: false
+    old-blast-protection-explosion-knockback: false
+  only-player-pushable: false
+  spawner-settings:
+    enabled: false
+    checks:
+      light-level-check: false
+      spawner-max-nearby-check: true
+      check-for-nearby-players: true
+      spawner-block-checks: false
+      water-prevent-spawn-check: false
+      ignore-spawn-rules: false
+    min-spawn-delay: 200
+    max-spawn-delay: 800
+  use-spigot-item-merging-mechanism: false
+  use-vanilla-hopper: false
+
+#############
+#  NETWORK  #
+#############
+network:
+  async-switch-state: true        # changed from false, async connection state switching
+  chat-message-signature: true
+  # OPTIMIZED: enable lazy packet sending
+  OptimizeNonFlushPacketSending: false  # keep false, incompatible with ProtocolLib
+  protocol-support:
+    strict-mode: false
+    jade-protocol: false
+    appleskin-protocol: false
+    appleskin-protocol-sync-tick-interval: 20
+    asteorbar-protocol: false
+    chatimage-protocol: false
+    xaero-map-protocol: false
+    xaero-map-server-id: 459243998
+    syncmatica-protocol: false
+    syncmatica-quota: false
+    syncmatica-quota-limit: 40000000
+    do-a-barrel-roll-protocol: false
+    do-a-barrel-roll-allow-thrusting: false
+    do-a-barrel-roll-force-enabled: false
+    do-a-barrel-roll-force-installed: false
+    do-a-barrel-roll-installed-timeout: 0
+
+##########
+#  MISC  #
+##########
+misc:
+  connection-message:
+    join:
+      enabled: true
+      message: default
+    quit:
+      enabled: true
+      message: default
+  disable-world-data-saving:
+    worlds: []
+  including-5s-in-get-tps: true
+  lag-compensation:
+    enabled: false
+    enable-for-water: false
+    enable-for-lava: false
+  remove-change-non-editable-sign-warning: true  # changed from false, reduce log spam
+  remove-spigot-check-bungee-config: false
+  secure-seed:
+    enabled: false
+  sentry:
+    dsn: ''
+    log-level: WARN
+    only-log-thrown: true
+  rebrand:
+    server-mod-name: Leaf
+    server-gui-name: Leaf Console
+  message:
+    unknown-command: default
+  vanilla-username-check:
+    remove-all-check: false
+    enforce-skull-validation: true
+    allow-old-players-join: false
+    use-username-regex: false
+    username-regex: ^[a-zA-Z0-9_.]*$

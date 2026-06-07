@@ -1,0 +1,39 @@
+settings:
+  allow-end: true
+  warn-on-overload: true
+  permissions-file: permissions.yml
+  update-folder: update
+  plugin-profiling: false
+  connection-throttle: 4000
+  query-plugins: true
+  deprecated-verbose: default
+  shutdown-message: Server closed
+  minimum-api: none
+  use-map-color-cache: true
+
+# OPTIMIZED: Reduced spawn limits for 1-5 players
+spawn-limits:
+  monsters: 15        # down from 70, plenty for 1-5 players
+  animals: 5          # down from 10
+  water-animals: 2    # down from 5, only squid/tadpoles spawn naturally
+  water-ambient: 0    # down from 20, no ambient water mobs
+  water-underground-creature: 0  # down from 5, not needed
+  axolotls: 0         # down from 5, creative only
+  ambient: 0          # down from 15, bats gone
+
+# OPTIMIZED: chunk gc more frequent
+chunk-gc:
+  period-in-ticks: 200  # down from 600, unload unused chunks faster
+
+# OPTIMIZED: tick rates heavily increased to reduce CPU
+ticks-per:
+  animal-spawns: 800      # up from 400, animals spawn slowly
+  monster-spawns: 20      # up from 1, HUGE CPU saving
+  water-spawns: 600       # up from 1
+  water-ambient-spawns: 999  # essentially disabled
+  water-underground-creature-spawns: 999  # essentially disabled
+  axolotl-spawns: 999     # essentially disabled
+  ambient-spawns: 999     # bats essentially disabled
+  autosave: 12000         # up from 6000, save less frequently
+
+aliases: now-in-commands.yml
